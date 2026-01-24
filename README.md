@@ -7,12 +7,12 @@ wallets, cardano-cli transactions, staking, Plutus script transactions, Aiken, M
 
 ### Option A — Vercel `skills` CLI
 ```bash
-npx skills add realdecimalist/cardano-agent-skills
+npx skills add Flux-Point-Studios/cardano-agent-skills
 ```
 
 ### Option B — `add-skill`
 ```bash
-npx add-skill realdecimalist/cardano-agent-skills -a claude-code
+npx add-skill Flux-Point-Studios/cardano-agent-skills -a claude-code
 ```
 
 ## What you get
