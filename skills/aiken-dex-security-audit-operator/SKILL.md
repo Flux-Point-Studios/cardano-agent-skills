@@ -1,6 +1,6 @@
 ---
 name: aiken-dex-security-audit-operator
-description: Operator skill: run local Aiken build/test commands and capture evidence for the audit. Manual invoke only.
+description: "Operator skill: run local Aiken build/test commands and capture evidence for the audit. Manual invoke only."
 metadata:
   manual: "true"
 ---
