@@ -1,0 +1,62 @@
+# Adds Ogmios + Kupo to Hydra's official demo devnet.
+#
+# Usage:
+#   (from hydra/demo)
+#   docker compose up -d ogmios kupo
+#
+# This file is meant to be copied into the upstream hydra/demo folder as:
+#   hydra/demo/docker-compose.override.yml
+# so Compose auto-merges it with the demo's docker-compose.yml.
+
+services:
+  ogmios:
+    image: cardanosolutions/ogmios:latest
+    depends_on:
+      - cardano-node
+    # Ogmios reads the node config + connects over the node.socket.
+    # NOTE: If this ever breaks due to upstream changes, run:
+    #   docker compose run --rm ogmios --help
+    command:
+      - --node-socket
+      - /devnet/node.socket
+      - --node-config
+      - /devnet/cardano-node.json
+      - --host
+      - 0.0.0.0
+      - --port
+      - "1337"
+    volumes:
+      - ./devnet:/devnet:ro
+    ports:
+      - "1337:1337"
+    restart: unless-stopped
+
+  kupo:
+    image: cardanosolutions/kupo:latest
+    depends_on:
+      - cardano-node
+    # Minimal setup based on the official Docker instructions:
+    # https://hub.docker.com/r/cardanosolutions/kupo
+    command:
+      - --node-socket
+      - /devnet/node.socket
+      - --node-config
+      - /devnet/cardano-node.json
+      - --host
+      - 0.0.0.0
+      - --workdir
+      - /db
+      # Index everything in this local devnet.
+      - --match
+      - "*"
+      - --since
+      - origin
+    volumes:
+      - ./devnet:/devnet:ro
+      - kupo-db:/db
+    ports:
+      - "1442:1442"
+    restart: unless-stopped
+
+volumes:
+  kupo-db:
