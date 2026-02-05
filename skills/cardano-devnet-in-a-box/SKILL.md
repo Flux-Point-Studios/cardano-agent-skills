@@ -1,3 +1,9 @@
+---
+name: cardano-devnet-in-a-box
+description: "One-command local rehearsal stack: cardano-node + hydra + ogmios + kupo. Docker-based, deterministic green/red testing."
+metadata: {"openclaw":{"emoji":"\ud83d\udce6","requires":{"bins":["docker","docker-compose","git"]},"install":[{"id":"brew","kind":"brew","formula":"colima docker docker-compose curl git","bins":["colima","docker","docker-compose","curl","git"],"label":"Install Docker runtime (Colima) + Docker CLI + Compose + curl + git (brew)","os":["darwin","linux"]}]}}
+---
+
 # Cardano Devnet-in-a-Box (cardano-node + hydra + ogmios + kupo)
 
 ## What this skill is for

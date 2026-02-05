@@ -9,6 +9,7 @@ allowed-tools:
 context:
   - "!aiken --version 2>&1 | head -3"
   - "!aiken --help 2>&1 | head -20"
+metadata: {"openclaw":{"emoji":"\ud83e\uddf0","requires":{"anyBins":["cardano-cli","docker"]},"install":[{"id":"brew","kind":"brew","formula":"colima docker docker-compose curl","bins":["colima","docker","docker-compose","curl"],"label":"Install Docker runtime (Colima) + Docker CLI + Compose + curl (brew)","os":["darwin","linux"]}]}}
 ---
 
 # aiken-smart-contracts

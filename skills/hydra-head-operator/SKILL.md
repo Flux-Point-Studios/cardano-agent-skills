@@ -1,6 +1,7 @@
 ---
 name: hydra-head-operator
 description: "Execute Hydra operations: init, commit, open, close, fanout. Manual invoke only due to L1 state changes."
+argument-hint: "<shell command>"
 allowed-tools:
   - Bash(hydra-node:*)
   - Bash(hydra-tui:*)
@@ -11,9 +12,13 @@ allowed-tools:
   - Write
 disable-model-invocation: true
 user-invocable: true
+command-dispatch: tool
+command-tool: exec
+command-arg-mode: raw
 context:
   - "!hydra-node --version 2>&1 | head -3"
   - "!hydra-node run --help 2>&1 | head -30"
+metadata: {"openclaw":{"emoji":"\ud83d\uddef","requires":{"anyBins":["hydra-node","docker"],"bins":["curl"]},"install":[{"id":"brew","kind":"brew","formula":"colima docker docker-compose curl","bins":["colima","docker","docker-compose","curl"],"label":"Install Docker runtime (Colima) + Docker CLI + Compose + curl (brew)","os":["darwin","linux"]}],"homepage":"https://docs.openclaw.ai/tools/exec"}}
 ---
 
 # hydra-head-operator
@@ -30,6 +35,36 @@ context:
 - **REQUIRE explicit confirmation before Init, Close, Fanout**
 - Keep logs for debugging
 - Test on devnet/preview before mainnet
+
+## OpenClaw exec dispatch mode
+This skill also functions as a **deterministic exec gateway** for OpenClaw: when you run the slash command, OpenClaw **bypasses the model** and forwards your arguments straight to the **Exec Tool** (`command-dispatch: tool`).
+
+### Safety first: force approvals + allowlist mode
+Before using as an operator, set Exec defaults for the session:
+- `/exec host=gateway security=allowlist ask=on-miss`
+
+### Allowlist-safe shortcut (recommended)
+If your Exec allowlist is strict, allowlist **one** entrypoint and route everything through it:
+- Allowlist: `~/Projects/**/cardano-agent-skills/scripts/oc-safe.sh` (adjust glob)
+- Run:
+  - `/hydra_head_operator ./scripts/oc-safe.sh hydra --help`
+  - `/hydra_head_operator ./scripts/oc-safe.sh hydra gen-hydra-key --output-file hydra`
+  - `/hydra_head_operator ./scripts/oc-safe.sh hydra-api 4001 head`
+
+## Docker fallback mode
+If `hydra-node` is not installed locally, use the wrapper script in this skill folder to run **hydra-node inside Docker**:
+
+```bash
+chmod +x {baseDir}/scripts/hydra-node.sh
+{baseDir}/scripts/hydra-node.sh --help
+```
+
+Quick API probes (curl wrapper):
+```bash
+chmod +x {baseDir}/scripts/hydra-api.sh
+{baseDir}/scripts/hydra-api.sh 4001 head
+{baseDir}/scripts/hydra-api.sh 4001 metrics
+```
 
 ## Pre-flight checklist
 ```

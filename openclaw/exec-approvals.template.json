@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "defaults": {
+    "security": "deny",
+    "ask": "on-miss",
+    "askFallback": "deny",
+    "autoAllowSkills": false
+  },
+  "agents": {
+    "main": {
+      "security": "allowlist",
+      "ask": "on-miss",
+      "askFallback": "deny",
+      "autoAllowSkills": true,
+      "allowlist": [
+        {
+          "pattern": "/opt/homebrew/bin/docker"
+        },
+        {
+          "pattern": "/opt/homebrew/bin/docker-compose"
+        },
+        {
+          "pattern": "/opt/homebrew/bin/colima"
+        },
+        {
+          "pattern": "/opt/homebrew/bin/curl"
+        },
+        {
+          "pattern": "/usr/bin/curl"
+        },
+        {
+          "pattern": "/usr/bin/git"
+        },
+        {
+          "pattern": "~/Projects/**/cardano-agent-skills/scripts/oc-safe.sh"
+        }
+      ]
+    }
+  }
+}

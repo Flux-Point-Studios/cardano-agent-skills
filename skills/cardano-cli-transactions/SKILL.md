@@ -6,6 +6,7 @@ allowed-tools:
 user-invocable: true
 context:
   - "!cardano-cli version 2>&1 | head -5"
+metadata: {"openclaw":{"emoji":"\ud83e\uddf0","requires":{"anyBins":["cardano-cli","docker"]},"install":[{"id":"brew","kind":"brew","formula":"colima docker docker-compose curl","bins":["colima","docker","docker-compose","curl"],"label":"Install Docker runtime (Colima) + Docker CLI + Compose + curl (brew)","os":["darwin","linux"]}]}}
 ---
 
 # cardano-cli-transactions
@@ -22,6 +23,19 @@ context:
 - Never execute—only provide templates
 - Always include fee handling and change
 - Include verification steps
+
+## Docker fallback mode
+If `cardano-cli` is not installed locally, use the wrapper script in this skill folder to run **cardano-cli inside Docker** (the Cardano node container images include the CLI).
+
+```bash
+chmod +x {baseDir}/scripts/cardano-cli.sh
+{baseDir}/scripts/cardano-cli.sh version
+```
+
+Notes:
+- The wrapper mounts your current directory into the container as `/work` so files like `pparams.json`, `tx.body`, `datum.json` work normally.
+- If you have a local node socket, set `CARDANO_NODE_SOCKET_PATH` before running so `query` commands work.
+- Override the image with `CARDANO_DOCKER_IMAGE=ghcr.io/intersectmbo/cardano-node:<tag>`.
 
 ## Workflow templates
 

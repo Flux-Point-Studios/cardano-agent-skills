@@ -23,7 +23,7 @@ const warnings = [];
 const seenNames = new Set();
 
 function extractFrontmatter(content) {
-  const match = content.match(/^---\n([\s\S]*?)\n---/);
+  const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
   if (!match) return null;
   try {
     return yaml.parse(match[1]);

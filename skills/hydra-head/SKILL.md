@@ -6,6 +6,7 @@ allowed-tools:
 user-invocable: true
 context:
   - "!hydra-node --version 2>&1 | head -3"
+metadata: {"openclaw":{"emoji":"\ud83d\udc09","requires":{"anyBins":["hydra-node","docker"],"bins":["curl"]},"install":[{"id":"brew","kind":"brew","formula":"colima docker docker-compose curl","bins":["colima","docker","docker-compose","curl"],"label":"Install Docker runtime (Colima) + Docker CLI + Compose + curl (brew)","os":["darwin","linux"]}]}}
 ---
 
 # hydra-head
@@ -22,6 +23,17 @@ context:
 - Use hydra.family docs as source of truth
 - Never execute—only provide guidance
 - Treat all `.sk` files as secrets
+
+## Docker fallback mode
+If `hydra-node` is not installed locally, use the wrapper script in this skill folder to run **hydra-node inside Docker** (Hydra upstream recommends Docker images for quickest start).
+
+```bash
+chmod +x {baseDir}/scripts/hydra-node.sh
+{baseDir}/scripts/hydra-node.sh --help
+{baseDir}/scripts/hydra-node.sh gen-hydra-key --output-file hydra
+```
+
+For full multi-node Head demos, prefer the hydra.family Docker Compose demo (it's the canonical "known-good" setup).
 
 ## Key concepts
 
