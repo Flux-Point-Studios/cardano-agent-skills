@@ -137,7 +137,7 @@ See `shared/mcp-provider.md` for the full provider architecture and trust model.
 npx @indigoprotocol/cardano-mcp setup
 ```
 
-This adds a `cardano` MCP server to your Claude Code / Cursor / Windsurf config. The `cardano-mcp-wallet` skill will detect it automatically.
+This adds a `cardano` MCP server to your Claude Code / Cursor / Windsurf config. The `cardano-mcp-*` skills will detect it automatically.
 
 > **Note:** `cardano-ai` (IndigoProtocol's skills layer) is an optional companion — it ships 4 skills that overlap with this repo. It is **not** a dependency.
 
