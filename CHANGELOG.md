@@ -2,6 +2,34 @@
 
 All notable changes to Cardano Agent Skills are documented here.
 
+## [v6] — 2026-03-11
+
+**MCP provider integration + Koios agent wallet (community PR)**
+
+### Added
+- **4 focused MCP skills** for `@indigoprotocol/cardano-mcp` integration (mirrors upstream grouping):
+  - `cardano-mcp-balances` — read-only: `get_balances`, `get_addresses`, `get_utxos`
+  - `cardano-mcp-identity` — read-only: `get_adahandles` (ADAHandle lookup)
+  - `cardano-mcp-staking` — read-only: `get_stake_delegation` (pool + rewards)
+  - `cardano-mcp-transactions` — high-risk: `submit_transaction` with mandatory structured preview-confirm flow (network, source, outputs, fee, CBOR fingerprint)
+  - Provider detection: MCP → Koios → CLI fallback; fail closed on uncertain network
+- **`koios-agent-wallet` skill** (merged from PR #2, author: @ThaMacroMan)
+  - Key-based Cardano wallet setup with MeshJS + KoiosProvider
+  - `scripts/agent-wallet.js` — send ADA, stake, sign+submit dApp txs
+  - `scripts/generate-key-based-wallet.js` — generate wallet without mnemonic or cardano-cli
+  - CSL dual-key signing for staking (payment + stake witnesses)
+- **`shared/mcp-provider.md`** — MCP provider architecture doc: provider selection rules, capability matrix, trust model diagram
+
+### Changed
+- README.md updated with MCP provider section, provider architecture, and skill count (25)
+- Architecture diagram now shows provider selection layer (MCP / Koios / CLI / Docker)
+- Network wording: "assumes mainnet unless testnet support is explicitly validated" (not hardcoded claim)
+
+### Stats
+- Total skills: **25** (17 guidance + 8 operator)
+
+---
+
 ## [v5] — 2026-02-05
 
 **OpenClaw operators, Docker fallback, and exec approval infrastructure**

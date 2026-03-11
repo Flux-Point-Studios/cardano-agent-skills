@@ -1,7 +1,7 @@
 # Cardano Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Skills](https://img.shields.io/badge/skills-20-green.svg)](#available-skills)
+[![Skills](https://img.shields.io/badge/skills-25-green.svg)](#available-skills)
 
 A comprehensive set of **small, focused Agent Skills** for Cardano development. Self-calibrating, safe by design, and built for Claude Code, OpenClaw, Codex, Cursor, and other AI coding assistants.
 
@@ -69,6 +69,21 @@ PowerShell:
 | `cardano-cli-operator` | Consolidated manual-only operator for all Cardano CLI commands (OpenClaw exec dispatch) | Manual invoke |
 | `hydra-head-operator` | Execute Hydra operations (init, commit, close) with OpenClaw exec dispatch | Manual invoke |
 
+### MCP-Backed Wallet (optional `cardano-mcp` provider)
+
+| Skill | Description | Risk Level |
+|-------|-------------|------------|
+| `cardano-mcp-balances` | Read-only wallet balances, addresses, and UTxOs via MCP | Safe (read-only) |
+| `cardano-mcp-identity` | ADAHandle ($handle) lookup via MCP | Safe (read-only) |
+| `cardano-mcp-staking` | Staking delegation status and rewards via MCP | Safe (read-only) |
+| `cardano-mcp-transactions` | Sign and submit pre-built transactions via MCP — requires structured preview + explicit confirmation | High-risk (guidance) |
+
+### Koios Provider
+
+| Skill | Description | Risk Level |
+|-------|-------------|------------|
+| `koios-agent-wallet` | Key-based agent wallets with MeshJS + KoiosProvider: generate, send, stake, sign+submit | Safe (guidance) |
+
 ### Smart Contracts
 
 | Skill | Description | Risk Level |
@@ -92,12 +107,47 @@ PowerShell:
 |-------|-------------|------------|
 | `cardano-devnet-in-a-box` | One-command local rehearsal stack: cardano-node + hydra + ogmios + kupo | Safe (local only) |
 
+## MCP Provider Integration
+
+`cardano-agent-skills` can optionally use MCP servers as runtime providers. When a `cardano` MCP server is configured, wallet queries and transaction submission route through it automatically. When it's not available, skills fall back to Koios or CLI.
+
+```
+┌─────────────────────────────────────────────┐
+│           cardano-agent-skills              │
+│  (guidance, safety rules, tx patterns)      │
+├─────────────────────────────────────────────┤
+│         Provider selection layer            │
+├──────────┬──────────┬──────────┬────────────┤
+│  cardano │  Koios   │ CLI +    │  Docker    │
+│  MCP     │ Provider │ node     │  fallback  │
+│ (opt.)   │ (opt.)   │ (native) │  (auto)    │
+└──────────┴──────────┴──────────┴────────────┘
+```
+
+- **MCP** (`@indigoprotocol/cardano-mcp`): mainnet wallet queries + sign/submit. No tx building.
+- **Koios** (`koios-agent-wallet`): any network, key-based, full tx building via MeshJS.
+- **CLI**: any network, full feature set, offline signing support.
+- **Docker fallback**: automatic if native binaries aren't installed.
+
+See `shared/mcp-provider.md` for the full provider architecture and trust model.
+
+### Optional: cardano-mcp setup
+
+```bash
+npx @indigoprotocol/cardano-mcp setup
+```
+
+This adds a `cardano` MCP server to your Claude Code / Cursor / Windsurf config. The `cardano-mcp-wallet` skill will detect it automatically.
+
+> **Note:** `cardano-ai` (IndigoProtocol's skills layer) is an optional companion — it ships 4 skills that overlap with this repo. It is **not** a dependency.
+
 ## Architecture
 
 ```
 cardano-agent-skills/
 ├── shared/
-│   └── PRINCIPLES.md          # Common safety rules across all skills
+│   ├── PRINCIPLES.md          # Common safety rules across all skills
+│   └── mcp-provider.md       # MCP provider architecture & trust model
 ├── skills/
 │   ├── <skill-name>/
 │   │   ├── SKILL.md           # Skill definition (frontmatter + instructions)
