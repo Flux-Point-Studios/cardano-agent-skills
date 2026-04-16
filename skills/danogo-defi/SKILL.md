@@ -134,10 +134,11 @@ curl -s http://localhost:1337 -H "Content-Type: application/json" -d '{
 
 ## Danogo SDK (danogo-clmm)
 
-The official TypeScript SDK `@aspect-build/danogo-clmm` provides helpers:
+If an official TypeScript SDK is available (check Danogo docs for the correct package name), it provides helpers for pool queries and quote calculations. **Always verify the package name from official Danogo documentation before installing** to avoid typosquatted packages.
 
 ```typescript
-import { DanogoPool, getQuote } from '@aspect-build/danogo-clmm';
+// Example pattern (verify actual SDK package name from Danogo docs)
+import { DanogoPool, getQuote } from '<danogo-sdk-package>';
 
 const pool = await DanogoPool.fromOgmios(ogmiosUrl, poolId);
 const quote = getQuote(pool, inputAmount, 'tokenA-to-tokenB');
@@ -146,8 +147,8 @@ console.log(`Expected output: ${quote.outputAmount} (fee: ${quote.feeAmount})`);
 
 **Known SDK issues (as of 2026-04):**
 - `outRef` staleness: Pool UTxO reference becomes invalid after any swap in the pool. Always re-query.
-- Double-sqrt bug in older versions: `getPrice()` applied `Math.sqrt()` to an already-sqrt value. Fixed in v1.2+.
-- SDK version pinning: Use `>=1.2.0` to avoid the sqrt bug.
+- Double-sqrt bug in older versions: `getPrice()` applied `Math.sqrt()` to an already-sqrt value. Check changelog for fix version.
+- Always pin SDK version after verifying it works correctly.
 
 ## Troubleshooting
 
