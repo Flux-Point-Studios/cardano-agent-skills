@@ -1,7 +1,7 @@
 # Cardano Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Skills](https://img.shields.io/badge/skills-25-green.svg)](#available-skills)
+[![Skills](https://img.shields.io/badge/skills-26-green.svg)](#available-skills)
 
 A comprehensive set of **small, focused Agent Skills** for Cardano development. Self-calibrating, safe by design, and built for Claude Code, OpenClaw, Codex, Cursor, and other AI coding assistants.
 
@@ -91,6 +91,7 @@ PowerShell:
 | `aiken-smart-contracts` | Aiken workflows: validators, building, blueprints, .plutus generation | Safe |
 | `aiken-dex-security-audit` | Security audit playbook for Plutus V3 Aiken DEX contracts (guidance) | Safe (guidance) |
 | `aiken-dex-security-audit-operator` | Execute security audit operations (findings, tests, reports) | Manual invoke |
+| `aiken-validator-redteam` | Executable multi-agent adversarial red-team: fans out attackers writing PoC Aiken tests (passing test = confirmed vuln), skeptic-verifies, returns GREEN/AMBER/RED | Safe (guidance) |
 | `plutus-v3-conway` | Plutus V3 under Conway: contexts, governance, V2->V3 migration | Safe |
 | `meshjs-cardano` | MeshJS patterns: tx building, UTxO selection, wallet connectors | Safe |
 

@@ -2,6 +2,20 @@
 
 All notable changes to Cardano Agent Skills are documented here.
 
+## [v7] — 2026-07-07
+
+**Executable adversarial red-team for Aiken validators**
+
+### Added
+- **`aiken-validator-redteam` skill** — an executable multi-agent adversarial red-team harness for Plutus V3 Aiken validators, complementing the manual `aiken-dex-security-audit` playbook:
+  - Fans out one attacker agent per known eUTxO exploit class (double-satisfaction, value-underpay, mint/token integrity, authorization, index, continuation, term-corruption, receipt forgery, ref-script, composed, directional, datum-decode, time, oracle/premium) plus a creative novel round.
+  - Each attacker writes proof-of-concept Aiken tests where a **PASSING test proves the validator accepted a fund-stealing transaction** — a confirmed vulnerability judged by the compiler, not by opinion.
+  - A skeptic pass independently reproduces every claim and classifies the deployment precondition (permissionless vs footgun-only), returning a **GREEN / AMBER / RED** verdict.
+  - `redteam-workflow.js` — deterministic Workflow script; configurable via `args.project` and an optional `args.remoteHost` to offload compiles from a memory-constrained orchestration host.
+
+### Changed
+- README.md skill count (26) and Smart Contracts table updated.
+
 ## [v6] — 2026-03-11
 
 **MCP provider integration + Koios agent wallet (community PR)**
