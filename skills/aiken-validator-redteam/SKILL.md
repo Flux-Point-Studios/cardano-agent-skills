@@ -128,6 +128,19 @@ and datums. Keep the attack/verify/novel agents at high reasoning effort.
   with zero agent activity is a harness error, not a pass.
 - Confirmed vulns must be **reproduced by the verify pass**, not merely claimed
   by an attacker — attackers over-claim; skeptics filter.
+- **Time / validity-range findings need a ledger-consistency check.** A unit test
+  calls the validator directly and can present a `validity_range` the chain would
+  never include — the ledger only admits a tx when the real slot is inside
+  `[lower_bound, upper_bound]`, so a width bound like `hi - lo <= max_skew` pins
+  `hi` to within `max_skew` of real time. An attack that only "accepts" because
+  the datum's timestamps and the `[lo,hi]` range describe timelines that can't
+  coexist on one real chain (records stamped seconds ago but `hi` set years
+  ahead) is a **unit-test artifact**, not an exploit. Before confirming a
+  time-based finding, reproduce it under a single consistent timeline: every
+  timestamp the validator stamps equals the `hi` of the tx that created it, each
+  such tx's real slot lies in its own `[lo,hi]`, and every `[lo,hi]` respects the
+  width bound. If it no longer accepts, it is REFUTED. (The verify pass enforces
+  this, but read time-based CONFIRMED findings with this in mind.)
 - This clears an *in-house* gate. It does not replace a formal third-party audit
   where one is contractually required. Pair it with
   `aiken-dex-security-audit` for the written threat model, invariants, and
