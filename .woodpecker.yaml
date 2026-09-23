@@ -1,0 +1,16 @@
+when:
+  # The config's own path is in both filters so a change to this file is
+  # proven on its pull request, not first on main.
+  - event: push
+    branch: main
+    path: ['skills/**', '.woodpecker.yaml']
+  - event: pull_request
+    branch: main
+    path: ['skills/**', '.woodpecker.yaml']
+
+steps:
+  - name: validate
+    image: node:20-bookworm
+    commands:
+      - npm install yaml
+      - node .github/scripts/validate-skills.js

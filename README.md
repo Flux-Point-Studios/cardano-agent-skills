@@ -172,8 +172,9 @@ cardano-agent-skills/
 │   ├── scripts/               # rehearsal.sh, smoke.sh, hydra_ws.py
 │   └── assets/                # always-true.plutus, datum.json
 ├── .github/
-│   └── workflows/
-│       └── validate-skills.yml  # CI validation
+│   └── scripts/
+│       └── validate-skills.js  # Skill frontmatter validator
+├── .woodpecker.yaml           # CI validation (Woodpecker)
 └── README.md
 ```
 
