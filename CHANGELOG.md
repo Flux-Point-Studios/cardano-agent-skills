@@ -2,6 +2,13 @@
 
 All notable changes to Cardano Agent Skills are documented here.
 
+## [v7.1] — 2026-07-08
+
+**`aiken-validator-redteam`: ledger-consistency check for time findings**
+
+### Fixed
+- The verify (skeptic) pass could CONFIRM false positives on time / validity-range findings — it evaluated the validator directly with a `validity_range` the ledger would never include (e.g. `hi` fast-forwarded near `expiry` while spend records sit near real time). It now requires a **ledger-consistency reproduction**: the chain admits a tx only when the real slot ∈ `[lower_bound, upper_bound]`, so a width bound like `hi - lo <= max_skew` pins `hi` to within `max_skew` of real time. A finding that only accepts because the datum timestamps and `[lo,hi]` describe timelines that can't coexist on one real chain is now REFUTED as a unit-test artifact. `SKILL.md` documents the caveat under "Reading the result honestly."
+
 ## [v7] — 2026-07-07
 
 **Executable adversarial red-team for Aiken validators**
