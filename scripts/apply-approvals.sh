@@ -132,9 +132,6 @@ done
 # These patterns help when PATH differs between interactive shell and daemon.
 echo
 echo "== Adding OS-aware path patterns (safe-ish) =="
-# Always add the repo pattern too (portable across machines)
-run openclaw approvals allowlist add "${TARGET_ARGS[@]}" --agent "$AGENT" "~/Projects/**/cardano-agent-skills/scripts/oc-safe.sh" >/dev/null 2>&1 || true
-echo "OK allowlisted: ~/Projects/**/cardano-agent-skills/scripts/oc-safe.sh"
 
 if [[ "$os_name" == "darwin" ]]; then
   # Homebrew Intel + Apple Silicon common locations (for specific bins)

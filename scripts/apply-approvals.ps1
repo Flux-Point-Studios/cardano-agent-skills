@@ -86,9 +86,6 @@ function MaybeAddBin($bin) {
 Write-Host ""
 Write-Host "== Adding OS-aware path patterns (safe-ish) =="
 
-RunCmd @(@("approvals","allowlist","add") + $TargetArgs + @("--agent",$Agent,"~/Projects/**/cardano-agent-skills/scripts/oc-safe.sh"))
-Write-Host "OK allowlisted: ~/Projects/**/cardano-agent-skills/scripts/oc-safe.sh"
-
 if ($isMac) {
   $paths = @(
     "/opt/homebrew/bin/docker",

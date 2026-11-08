@@ -232,6 +232,10 @@ Use `scripts/oc-safe.sh` as a single allowlisted entrypoint in `security=allowli
 ./scripts/oc-safe.sh cardano query tip --mainnet
 ```
 
+The wrapper passes through read-only `cardano-cli` commands only: `version`, `query *`, `address info`, `transaction view` and `transaction txid`, with an optional era prefix. It refuses everything else, including signing, submitting, key generation, witnessing and assembling, and any `--out-file`. Use the manual operator skills for those. `scripts/test-oc-safe.sh` checks each rule, and CI runs it.
+
+Allowlist the wrapper by its exact path (`scripts/apply-approvals.sh` does this). A glob such as `~/Projects/**/oc-safe.sh` would also allowlist every other copy of the file.
+
 ### OpenClaw Fast-Secure Setup
 
 ```bash

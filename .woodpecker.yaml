@@ -3,10 +3,10 @@ when:
   # proven on its pull request, not first on main.
   - event: push
     branch: main
-    path: ['skills/**', '.woodpecker.yaml']
+    path: ['skills/**', 'scripts/**', 'openclaw/**', '.woodpecker.yaml']
   - event: pull_request
     branch: main
-    path: ['skills/**', '.woodpecker.yaml']
+    path: ['skills/**', 'scripts/**', 'openclaw/**', '.woodpecker.yaml']
 
 steps:
   - name: validate
@@ -14,3 +14,7 @@ steps:
     commands:
       - npm install yaml
       - node .github/scripts/validate-skills.js
+  - name: oc-safe
+    image: node:20-bookworm
+    commands:
+      - bash scripts/test-oc-safe.sh
