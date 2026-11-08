@@ -2,6 +2,18 @@
 
 All notable changes to Cardano Agent Skills are documented here.
 
+## [v8] — 2026-11-08
+
+**Hydra skills retired**
+
+### Removed
+- `hydra-head`, `hydra-head-operator` and `hydra-head-troubleshooter` skills.
+- `cardano-devnet-in-a-box` skill and the `devnet-in-a-box/` rehearsal stack.
+- `hydra` and `hydra-api` verbs from `scripts/oc-safe.sh`.
+
+### Changed
+- README.md skill count (22), skill tables, architecture tree and version list updated.
+
 ## [v7] — 2026-07-07
 
 **Executable adversarial red-team for Aiken validators**
