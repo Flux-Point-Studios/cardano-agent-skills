@@ -35,7 +35,6 @@ The skill repo is the orchestration and safety layer. MCP servers are optional r
 | Submit transactions| `submit_transaction` | `wallet.submitTx` | `cardano-cli transaction submit` |
 | Testnet support    | assumes mainnet*  | yes (any network) | yes (any network) |
 | Plutus scripts     | not supported    | partial               | full support |
-| Hydra              | not supported    | not supported         | via hydra-node |
 
 *Current integration assumes mainnet unless testnet support is explicitly validated against the configured MCP server.
 
@@ -61,9 +60,9 @@ These are **hard rules**, not suggestions. Follow in order:
 3. If the network is uncertain or the user says testnet → do NOT use MCP. Route to Koios or CLI with explicit network flags.
 4. **Fail closed:** unsupported or uncertain cases must refuse, not silently switch providers.
 
-### Plutus scripts, Hydra, Aiken
+### Plutus scripts, Aiken
 
-1. MCP has no script or L2 support. Use dedicated skills exclusively.
+1. MCP has no script support. Use dedicated skills exclusively.
 2. Never fall back to MCP for these operations.
 
 ## Trust boundaries

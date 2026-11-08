@@ -1,7 +1,7 @@
 # Cardano Agent Skills
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Skills](https://img.shields.io/badge/skills-26-green.svg)](#available-skills)
+[![Skills](https://img.shields.io/badge/skills-22-green.svg)](#available-skills)
 
 A comprehensive set of **small, focused Agent Skills** for Cardano development. Self-calibrating, safe by design, and built for Claude Code, OpenClaw, Codex, Cursor, and other AI coding assistants.
 
@@ -67,7 +67,6 @@ PowerShell:
 | Skill | Description | Risk Level |
 |-------|-------------|------------|
 | `cardano-cli-operator` | Consolidated manual-only operator for all Cardano CLI commands (OpenClaw exec dispatch) | Manual invoke |
-| `hydra-head-operator` | Execute Hydra operations (init, commit, close) with OpenClaw exec dispatch | Manual invoke |
 
 ### MCP-Backed Wallet (optional `cardano-mcp` provider)
 
@@ -94,19 +93,6 @@ PowerShell:
 | `aiken-validator-redteam` | Executable multi-agent adversarial red-team: fans out attackers writing PoC Aiken tests (passing test = confirmed vuln), skeptic-verifies, returns GREEN/AMBER/RED | Safe (guidance) |
 | `plutus-v3-conway` | Plutus V3 under Conway: contexts, governance, V2->V3 migration | Safe |
 | `meshjs-cardano` | MeshJS patterns: tx building, UTxO selection, wallet connectors | Safe |
-
-### Hydra L2
-
-| Skill | Description | Risk Level |
-|-------|-------------|------------|
-| `hydra-head` | Hydra Head best practices: setup, keys, peers, lifecycle (guidance) | Safe (guidance) |
-| `hydra-head-troubleshooter` | Decision tree for Hydra issues: symptoms -> fixes -> verification | Safe |
-
-### Local Development
-
-| Skill | Description | Risk Level |
-|-------|-------------|------------|
-| `cardano-devnet-in-a-box` | One-command local rehearsal stack: cardano-node + hydra + ogmios + kupo | Safe (local only) |
 
 ## MCP Provider Integration
 
@@ -166,11 +152,6 @@ cardano-agent-skills/
 │   ├── apply-approvals.ps1    # Apply exec approvals (PowerShell)
 │   ├── install.sh             # Install for claude-code + openclaw (bash)
 │   └── install.ps1            # Install for claude-code + openclaw (PowerShell)
-├── devnet-in-a-box/
-│   ├── run.sh                 # Orchestration (up/down/smoke/rehearsal)
-│   ├── docker-compose.override.yml  # Ogmios + Kupo services
-│   ├── scripts/               # rehearsal.sh, smoke.sh, hydra_ws.py
-│   └── assets/                # always-true.plutus, datum.json
 ├── .github/
 │   └── scripts/
 │       └── validate-skills.js  # Skill frontmatter validator
@@ -226,7 +207,7 @@ allowed-tools:
 
 ### 5. Docker Fallback
 
-Every CLI skill includes a `scripts/cardano-cli.sh` or `scripts/hydra-node.sh` wrapper that:
+Every CLI skill includes a `scripts/cardano-cli.sh` wrapper that:
 - Uses the native binary if installed
 - Falls back to the official Docker image otherwise
 - Mounts the working directory and node socket automatically
@@ -235,7 +216,7 @@ Every CLI skill includes a `scripts/cardano-cli.sh` or `scripts/hydra-node.sh` w
 
 ### Deterministic Exec Dispatch
 
-Operator skills (`cardano-cli-operator`, `hydra-head-operator`) use OpenClaw's **command-dispatch: tool** mode to route commands directly to the **Exec Tool** without model invocation. This means:
+Operator skills such as `cardano-cli-operator` use OpenClaw's **command-dispatch: tool** mode to route commands directly to the **Exec Tool** without model invocation. This means:
 
 - You type the command, it runs exactly what you typed
 - No model hallucination of flags or parameters
@@ -249,11 +230,11 @@ Use `scripts/oc-safe.sh` as a single allowlisted entrypoint in `security=allowli
 # Cardano CLI via oc-safe
 ./scripts/oc-safe.sh cardano version
 ./scripts/oc-safe.sh cardano query tip --mainnet
-
-# Hydra via oc-safe
-./scripts/oc-safe.sh hydra --help
-./scripts/oc-safe.sh hydra-api 4001 head
 ```
+
+The wrapper passes through read-only `cardano-cli` commands only: `version`, `query *`, `address info`, `transaction view` and `transaction txid`, with an optional era prefix. It refuses everything else, including signing, submitting, key generation, witnessing and assembling, and any `--out-file`. Use the manual operator skills for those. `scripts/test-oc-safe.sh` checks each rule, and CI runs it.
+
+Allowlist the wrapper by its exact path (`scripts/apply-approvals.sh` does this). A glob such as `~/Projects/**/oc-safe.sh` would also allowlist every other copy of the file.
 
 ### OpenClaw Fast-Secure Setup
 
@@ -273,25 +254,11 @@ Then in OpenClaw chat:
 
 See `openclaw/EXEC_APPROVALS.md` for full details.
 
-## Devnet-in-a-Box (Local Cardano + Hydra + Ogmios + Kupo)
-
-Folder: `devnet-in-a-box/`
-
-Run deterministic green/red rehearsal:
-
-```bash
-cd devnet-in-a-box
-./run.sh rehearsal
-```
-
-See `devnet-in-a-box/README.md` for full setup guide.
-
 ## Version Compatibility
 
 Skills are tested against:
 - `cardano-cli` 10.x+ (Conway era, era-prefixed commands)
 - `cardano-node` 10.x+
-- `hydra-node` 0.20.x+
 - `aiken` 1.1.x+
 
 The `cardano-cli-doctor` skill will detect your version and recommend the appropriate command style.
@@ -319,7 +286,6 @@ MIT - See [LICENSE](LICENSE)
 
 - [Skills.sh](https://skills.sh) - Skill discovery and leaderboard
 - [Claude Code Skills Docs](https://code.claude.com/docs/en/skills)
-- [hydra.family](https://hydra.family) - Hydra Head documentation
 - [Cardano Docs](https://docs.cardano.org)
 
 ---

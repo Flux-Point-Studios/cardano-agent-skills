@@ -30,9 +30,6 @@
         },
         {
           "pattern": "/usr/bin/git"
-        },
-        {
-          "pattern": "~/Projects/**/cardano-agent-skills/scripts/oc-safe.sh"
         }
       ]
     }

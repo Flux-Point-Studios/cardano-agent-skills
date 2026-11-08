@@ -2,6 +2,20 @@
 
 All notable changes to Cardano Agent Skills are documented here.
 
+## [v8] — 2026-11-08
+
+**Hydra skills retired**
+
+### Removed
+- `hydra-head`, `hydra-head-operator` and `hydra-head-troubleshooter` skills.
+- `cardano-devnet-in-a-box` skill and the `devnet-in-a-box/` rehearsal stack.
+- `hydra` and `hydra-api` verbs from `scripts/oc-safe.sh`.
+
+### Changed
+- README.md skill count (22), skill tables, architecture tree and version list updated.
+- `scripts/oc-safe.sh` passes through read-only `cardano-cli` commands only (`version`, `query *`, `address info`, `transaction view`, `transaction txid`). It refuses every other command and any `--out-file`; `scripts/test-oc-safe.sh` covers each rule and runs in CI.
+- The approvals template and appliers no longer allowlist `~/Projects/**/cardano-agent-skills/scripts/oc-safe.sh`. The appliers allowlist the checkout's exact path.
+
 ## [v7] — 2026-07-07
 
 **Executable adversarial red-team for Aiken validators**

@@ -33,7 +33,8 @@ You can also add patterns using the CLI helper:
 
 ```bash
 openclaw approvals allowlist add "/opt/homebrew/bin/docker"
-openclaw approvals allowlist add "~/Projects/**/cardano-agent-skills/scripts/oc-safe.sh"
+# exact path of THIS checkout's wrapper; never a glob
+openclaw approvals allowlist add "$(pwd)/scripts/oc-safe.sh"
 ```
 
 ## Exec session defaults (per session)
